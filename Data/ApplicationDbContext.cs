@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using AccountManagement.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace AccountManagement.Data
@@ -9,5 +10,7 @@ namespace AccountManagement.Data
             : base(options)
         {
         }
+
+        public DbSet<Customer>? Customer { get; set; }
     }
 }
