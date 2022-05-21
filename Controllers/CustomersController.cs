@@ -9,6 +9,7 @@ using AccountManagement.Data;
 using AccountManagement.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace AccountManagement.Controllers
 {
@@ -16,19 +17,27 @@ namespace AccountManagement.Controllers
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public CustomersController(ApplicationDbContext context)
+        public CustomersController(ApplicationDbContext context, UserManager<IdentityUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: Customers
         public async Task<IActionResult> Index()
         {
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+            
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-              return _context.Customer != null ? 
-                          View(await _context.Customer.Where(x => x.UserId == userId).ToListAsync()) :
+            bool currentUserIsAdmin = await _userManager.IsInRoleAsync(currentUser, "Admin");
+
+            //Here, I am fetching the list of Customers which were created by the current logged-in user
+            //or all if the logged-in user is an Admin
+            return _context.Customer != null ? 
+                          View(await _context.Customer.Where(x => x.UserId == userId || currentUserIsAdmin).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Customer'  is null.");
         }
 
