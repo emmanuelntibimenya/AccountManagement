@@ -11,6 +11,6 @@
     <WebStackScaffolding_DbContextTypeFullName>AccountManagement.Data.ApplicationDbContext</WebStackScaffolding_DbContextTypeFullName>
     <WebStackScaffolding_IsAsyncSelected>False</WebStackScaffolding_IsAsyncSelected>
     <WebStackScaffolding_IsViewGenerationSelected>True</WebStackScaffolding_IsViewGenerationSelected>
-    <NameOfLastUsedPublishProfile>C:\MyProjects\AccountManagement\Properties\PublishProfiles\AccountManagement20220518212825 - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
+    <NameOfLastUsedPublishProfile>C:\MyProjects\AccountManagement\Properties\PublishProfiles\AccountManagementV1 - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>
