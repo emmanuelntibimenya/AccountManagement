@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AccountManagement.Data;
 using AccountManagement.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace AccountManagement.Controllers
 {
@@ -24,8 +25,10 @@ namespace AccountManagement.Controllers
         // GET: Customers
         public async Task<IActionResult> Index()
         {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
               return _context.Customer != null ? 
-                          View(await _context.Customer.ToListAsync()) :
+                          View(await _context.Customer.Where(x => x.UserId == userId).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Customer'  is null.");
         }
 
@@ -62,6 +65,7 @@ namespace AccountManagement.Controllers
         {
             if (ModelState.IsValid)
             {
+                customer.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -96,7 +100,7 @@ namespace AccountManagement.Controllers
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try

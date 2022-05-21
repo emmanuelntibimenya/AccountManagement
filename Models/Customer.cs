@@ -16,6 +16,7 @@ namespace AccountManagement.Models
         public string? Phone { get; set; }
         [Required]
         public string? Address { get; set; }
+        public string? UserId { get; set; }
         public Customer()
         {
             
