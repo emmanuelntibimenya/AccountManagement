@@ -8,7 +8,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlite($"Data Source=account-management.db"));
+    //Here, we configure the program to use SQL Server for database storage
+    options.UseSqlServer(connectionString)
+    //options.UseSqlite($"Data Source=account-management.db")
+    );
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
