@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Currency Converter</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form id="converterForm">
+            <div class="form-group">
+                <label for="From" class="control-label">From</label>
+                <select class="form-control" id="from">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="RUB">RUB</option>
+                    <option value="CNY">CNY</option>
+                    <option value="RWF">RWF</option>
+                    <option value="NGN">NGN</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="To" class="control-label">To</label>
+                <select class="form-control" id="to">
+                    <option value="USD">USD</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="RUB">RUB</option>
+                    <option value="CNY">CNY</option>
+                    <option value="RWF">RWF</option>
+                    <option value="NGN">NGN</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="Amount" class="control-label">Amount</label>
+                <input type="number" id="amount" for="Amount" value="0" class="form-control" />
+            </div>
+            <div class="form-group my-2">
+                <input type="submit" value="Convert" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <table class="table table-bordered table-striped mt-4">
+            <tr><td><strong>Currency Name: </strong></td><td><span id="curr_name"></span></td></tr>
+            <tr><td><strong>Rate: </strong></td><td><span id="rate"></span></td></tr>
+            <tr><td><strong>Equivalent Amount: </strong></td><td><span id="eAmount"></span></td></tr>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready( function () {
+            $('form#converterForm').on('submit', function(e){
+                e.preventDefault();
+                var from = $('#from').val();
+                var to = $('#to').val();
+                var amount = $('#amount').val();
+
+                const settings = {
+	                "async": true,
+	                "crossDomain": true,
+	                "url": "https://currency-converter5.p.rapidapi.com/currency/convert?format=json&from=" + from + "&to=" + to + "&amount=" + amount,
+	                "method": "GET",
+	                "headers": {
+		                "X-RapidAPI-Host": "currency-converter5.p.rapidapi.com",
+		                "X-RapidAPI-Key": "04d2e87c36mshf6d3ea309e33b4bp1d87e2jsn54cda4b5298e"
+	                }
+                };
+
+                $.ajax(settings).done(function (response) {
+	                console.log(response);
+                    $('#curr_name').text(response.rates[to].currency_name);
+                    $('#rate').text(response.rates[to].rate);
+                    $('#eAmount').text(new Intl.NumberFormat('en-US', { style: 'currency', currency: to }).format(response.rates[to].rate_for_amount));
+                });
+            });
+        });
+    </script>
+}
