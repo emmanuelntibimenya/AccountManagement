@@ -14,5 +14,19 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #faf2eb;
+}
+
+.navbar-custom {
+    background-color: #bc702d !important;
+}
+
+.navbar-custom .navbar-brand {
+    color: #fff !important;
+}
+
+.nav-item:hover, .nav-item .nav-link:hover {
+    background-color: #fff;
+    color: #bc702d !important;
 }
